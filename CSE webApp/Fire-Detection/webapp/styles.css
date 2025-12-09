@@ -1,0 +1,550 @@
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-color: #ff5722;
+  --secondary-color: #ff9800;
+  --success-color: #4caf50;
+  --warning-color: #ffc107;
+  --danger-color: #f44336;
+  --dark-bg: #1a1a2e;
+  --card-bg: #16213e;
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --border-color: #2a2a40;
+  --green-led: #4caf50;
+  --yellow-led: #ffc107;
+  --orange-led: #ff9800;
+  --red-led: #f44336;
+}
+
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    sans-serif;
+  background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+  color: var(--text-primary);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Header */
+.header {
+  background: rgba(22, 33, 62, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 2px solid var(--primary-color);
+  padding: 20px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.logo-icon {
+  font-size: 2.5rem;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.logo h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    var(--secondary-color)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.connection-status {
+  display: flex;
+  gap: 25px;
+}
+
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 8px 15px;
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+}
+
+.status-label {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.status-indicator {
+  font-size: 1.2rem;
+  animation: blink 2s ease-in-out infinite;
+}
+
+.status-indicator.connected {
+  color: var(--success-color);
+}
+
+.status-indicator.disconnected {
+  color: var(--danger-color);
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Main Content */
+.main-content {
+  padding: 40px 0;
+}
+
+/* Alert Banner */
+.alert-banner {
+  background: var(--card-bg);
+  border-radius: 20px;
+  padding: 30px;
+  margin-bottom: 30px;
+  border: 2px solid var(--border-color);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  transition: all 0.3s ease;
+}
+
+.alert-banner.level-0 {
+  border-color: var(--green-led);
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), var(--card-bg));
+}
+
+.alert-banner.level-1 {
+  border-color: var(--yellow-led);
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.1), var(--card-bg));
+}
+
+.alert-banner.level-2 {
+  border-color: var(--orange-led);
+  background: linear-gradient(135deg, rgba(255, 152, 0, 0.1), var(--card-bg));
+}
+
+.alert-banner.level-3,
+.alert-banner.level-4 {
+  border-color: var(--red-led);
+  background: linear-gradient(135deg, rgba(244, 67, 54, 0.2), var(--card-bg));
+  animation: alertPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes alertPulse {
+  0%,
+  100% {
+    box-shadow: 0 8px 32px rgba(244, 67, 54, 0.3);
+  }
+  50% {
+    box-shadow: 0 8px 32px rgba(244, 67, 54, 0.6);
+  }
+}
+
+.alert-content {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.alert-icon {
+  font-size: 3rem;
+}
+
+.alert-text h2 {
+  font-size: 1.8rem;
+  margin-bottom: 5px;
+}
+
+.alert-text p {
+  color: var(--text-secondary);
+  font-size: 1rem;
+}
+
+.alert-timestamp {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+/* LED Panel */
+.led-panel {
+  background: var(--card-bg);
+  border-radius: 20px;
+  padding: 30px;
+  margin-bottom: 30px;
+  border: 2px solid var(--border-color);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.led-panel h3 {
+  margin-bottom: 25px;
+  font-size: 1.4rem;
+  color: var(--text-primary);
+}
+
+.led-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px;
+}
+
+.led-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 15px;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.led-item.active {
+  border-color: currentColor;
+  background: rgba(255, 255, 255, 0.08);
+  transform: scale(1.05);
+}
+
+.led-light {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  position: relative;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.led-light.active {
+  box-shadow: 0 0 30px currentColor, inset 0 0 20px currentColor;
+}
+
+.led-light.green {
+  color: var(--green-led);
+}
+.led-light.yellow {
+  color: var(--yellow-led);
+}
+.led-light.orange {
+  color: var(--orange-led);
+}
+.led-light.red {
+  color: var(--red-led);
+}
+
+.led-light.green.active {
+  background: var(--green-led);
+}
+.led-light.yellow.active {
+  background: var(--yellow-led);
+}
+.led-light.orange.active {
+  background: var(--orange-led);
+}
+.led-light.red.active {
+  background: var(--red-led);
+}
+
+.led-light.red-flash.active {
+  background: var(--red-led);
+  animation: flashRed 0.5s ease-in-out infinite;
+}
+
+@keyframes flashRed {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 40px var(--red-led);
+  }
+  50% {
+    opacity: 0.3;
+    box-shadow: 0 0 10px var(--red-led);
+  }
+}
+
+.led-item span {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.led-item.active span {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* Sensor Grid */
+.sensor-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  margin-bottom: 30px;
+}
+
+.sensor-card {
+  background: var(--card-bg);
+  border-radius: 20px;
+  padding: 25px;
+  border: 2px solid var(--border-color);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  display: flex;
+  gap: 20px;
+  transition: all 0.3s ease;
+}
+
+.sensor-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(255, 87, 34, 0.2);
+  border-color: var(--primary-color);
+}
+
+.sensor-icon {
+  font-size: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sensor-info {
+  flex: 1;
+}
+
+.sensor-info h4 {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.sensor-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 5px;
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+}
+
+.sensor-value .unit {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+.sensor-status {
+  font-size: 0.85rem;
+  padding: 4px 12px;
+  border-radius: 12px;
+  display: inline-block;
+  font-weight: 500;
+}
+
+.sensor-status.normal {
+  background: rgba(76, 175, 80, 0.2);
+  color: var(--green-led);
+}
+
+.sensor-status.elevated {
+  background: rgba(255, 193, 7, 0.2);
+  color: var(--yellow-led);
+}
+
+.sensor-status.high {
+  background: rgba(255, 152, 0, 0.2);
+  color: var(--orange-led);
+}
+
+.sensor-status.critical {
+  background: rgba(244, 67, 54, 0.2);
+  color: var(--red-led);
+}
+
+/* Charts Section */
+.charts-section {
+  background: var(--card-bg);
+  border-radius: 20px;
+  padding: 30px;
+  margin-bottom: 30px;
+  border: 2px solid var(--border-color);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.charts-section h3 {
+  margin-bottom: 25px;
+  font-size: 1.4rem;
+}
+
+.chart-container {
+  position: relative;
+  height: 400px;
+}
+
+/* Data Source Panel */
+.data-source-panel {
+  background: var(--card-bg);
+  border-radius: 20px;
+  padding: 30px;
+  margin-bottom: 30px;
+  border: 2px solid var(--border-color);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.data-source-panel h3 {
+  margin-bottom: 20px;
+  font-size: 1.4rem;
+}
+
+.toggle-container {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.toggle-label:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--primary-color);
+}
+
+.toggle-label input[type="radio"] {
+  cursor: pointer;
+}
+
+.toggle-label input[type="radio"]:checked + span {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+/* Footer */
+.footer {
+  background: var(--card-bg);
+  border-top: 2px solid var(--primary-color);
+  padding: 30px 0;
+  text-align: center;
+  margin-top: 40px;
+}
+
+.footer p {
+  color: var(--text-secondary);
+  margin: 5px 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .logo h1 {
+    font-size: 1.3rem;
+  }
+
+  .header-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .connection-status {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .alert-banner {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .sensor-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .led-grid {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  }
+
+  .chart-container {
+    height: 300px;
+  }
+}
+
+/* Loading Animation */
+.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.shimmer {
+  animation: shimmer 2s infinite linear;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  background-size: 1000px 100%;
+}

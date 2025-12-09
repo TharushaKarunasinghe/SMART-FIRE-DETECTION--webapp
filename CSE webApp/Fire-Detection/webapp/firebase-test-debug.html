@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Firebase Test - Fire Detection</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background: #f5f5f5;
+      }
+      .test-box {
+        background: white;
+        padding: 20px;
+        margin: 10px 0;
+        border-radius: 8px;
+        border-left: 4px solid #007bff;
+      }
+      .error {
+        border-left-color: #dc3545;
+      }
+      .success {
+        border-left-color: #28a745;
+      }
+      .warning {
+        border-left-color: #ffc107;
+      }
+      button {
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        margin: 5px;
+      }
+      button:hover {
+        background: #0056b3;
+      }
+      #log {
+        background: #000;
+        color: #00ff00;
+        padding: 15px;
+        border-radius: 8px;
+        font-family: "Courier New", monospace;
+        height: 300px;
+        overflow-y: auto;
+        white-space: pre-wrap;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🔥 Firebase Test - Fire Detection System</h1>
+
+    <div class="test-box">
+      <h3>System Status</h3>
+      <div>Firebase SDK: <span id="firebaseStatus">❌ Not Loaded</span></div>
+      <div>Config: <span id="configStatus">❌ Not Loaded</span></div>
+      <div>Database: <span id="databaseStatus">❌ Not Connected</span></div>
+      <div>Total Readings: <span id="totalReadings">0</span></div>
+    </div>
+
+    <div class="test-box">
+      <h3>Test Controls</h3>
+      <button onclick="testFirebaseConnection()">🧪 Test Connection</button>
+      <button onclick="writeTestData()">📝 Write Test Data</button>
+      <button onclick="readData()">📖 Read Data</button>
+      <button onclick="clearLog()">🗑️ Clear Log</button>
+    </div>
+
+    <div class="test-box">
+      <h3>Console Log</h3>
+      <div id="log"></div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+    <!-- Configuration -->
+    <script src="config.js"></script>
+
+    <script>
+      let database = null;
+      let dataRef = null;
+      let totalReadings = 0;
+
+      function log(message) {
+        const timestamp = new Date().toLocaleTimeString();
+        const logElement = document.getElementById("log");
+        logElement.textContent += `[${timestamp}] ${message}\n`;
+        logElement.scrollTop = logElement.scrollHeight;
+        console.log(message);
+      }
+
+      function updateStatus() {
+        document.getElementById("firebaseStatus").textContent =
+          typeof firebase !== "undefined" ? "✅ Loaded" : "❌ Not Loaded";
+        document.getElementById("configStatus").textContent =
+          typeof firebaseConfig !== "undefined" ? "✅ Loaded" : "❌ Not Loaded";
+        document.getElementById("databaseStatus").textContent = database
+          ? "✅ Connected"
+          : "❌ Not Connected";
+      }
+
+      function initFirebase() {
+        log("🔧 Initializing Firebase...");
+
+        if (typeof firebase === "undefined") {
+          log("❌ Firebase SDK not available");
+          return;
+        }
+
+        if (typeof firebaseConfig === "undefined") {
+          log("❌ Firebase config not available");
+          return;
+        }
+
+        try {
+          firebase.initializeApp(firebaseConfig);
+          database = firebase.database();
+          dataRef = database.ref("latest");
+
+          log("✅ Firebase initialized successfully");
+          log("📍 Database URL: " + firebaseConfig.databaseURL);
+          log("📂 Listening to path: /latest");
+
+          // Set up real-time listener
+          dataRef.on("value", (snapshot) => {
+            const data = snapshot.val();
+            const timestamp = new Date().toLocaleTimeString();
+
+            if (data) {
+              totalReadings++;
+              document.getElementById("totalReadings").textContent =
+                totalReadings;
+              log(`🔔 [${timestamp}] Data received: ${JSON.stringify(data)}`);
+            } else {
+              log(`⚠️ [${timestamp}] No data in snapshot`);
+            }
+          });
+
+          updateStatus();
+        } catch (error) {
+          log("❌ Firebase initialization failed: " + error.message);
+        }
+      }
+
+      function testFirebaseConnection() {
+        log("🧪 Testing Firebase connection...");
+
+        if (!database) {
+          log("❌ Database not initialized");
+          return;
+        }
+
+        // Test read
+        dataRef
+          .once("value")
+          .then((snapshot) => {
+            const data = snapshot.val();
+            log("✅ Read test successful");
+            log("📊 Data: " + (data ? JSON.stringify(data) : "null"));
+          })
+          .catch((error) => {
+            log("❌ Read test failed: " + error.message);
+          });
+      }
+
+      function writeTestData() {
+        log("📝 Writing test data...");
+
+        if (!dataRef) {
+          log("❌ Database reference not available");
+          return;
+        }
+
+        const testData = {
+          temperature: (20 + Math.random() * 20).toFixed(1),
+          humidity: (40 + Math.random() * 40).toFixed(1),
+          smoke: Math.floor(Math.random() * 200),
+          gas: Math.floor(Math.random() * 500),
+          warningLevel: Math.floor(Math.random() * 3),
+          warningLabel: ["ALL CLEAR", "WATCH", "CAUTION"][
+            Math.floor(Math.random() * 3)
+          ],
+          timestamp: new Date().toISOString(),
+          testMode: true,
+        };
+
+        dataRef
+          .set(testData)
+          .then(() => {
+            log("✅ Test data written successfully");
+            log("📊 Data: " + JSON.stringify(testData));
+          })
+          .catch((error) => {
+            log("❌ Write failed: " + error.message);
+
+            if (error.code === "PERMISSION_DENIED") {
+              log("🚫 PERMISSION DENIED - Check Firebase rules!");
+            }
+          });
+      }
+
+      function readData() {
+        log("📖 Reading current data...");
+
+        if (!dataRef) {
+          log("❌ Database reference not available");
+          return;
+        }
+
+        dataRef
+          .once("value")
+          .then((snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+              log("📊 Current data: " + JSON.stringify(data, null, 2));
+            } else {
+              log("⚠️ No data found at /latest");
+
+              // Check alternative paths
+              const paths = ["/readings", "/fireDetection", "/sensors"];
+              paths.forEach((path) => {
+                database
+                  .ref(path)
+                  .once("value")
+                  .then((snap) => {
+                    if (snap.val()) {
+                      log(`✅ Found data at ${path}`);
+                    }
+                  });
+              });
+            }
+          })
+          .catch((error) => {
+            log("❌ Read failed: " + error.message);
+          });
+      }
+
+      function clearLog() {
+        document.getElementById("log").textContent = "";
+      }
+
+      // Initialize on load
+      document.addEventListener("DOMContentLoaded", function () {
+        log("📄 Page loaded, initializing...");
+        updateStatus();
+
+        setTimeout(() => {
+          initFirebase();
+        }, 1000);
+      });
+
+      // Update status every 2 seconds
+      setInterval(updateStatus, 2000);
+    </script>
+  </body>
+</html>

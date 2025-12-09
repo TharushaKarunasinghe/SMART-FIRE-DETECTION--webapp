@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🔥 Smart Fire Detection System</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <span class="logo-icon">🔥</span>
+            <h1>Smart Fire Detection System</h1>
+          </div>
+          <div class="connection-status">
+            <div class="status-item">
+              <span class="status-label">Firebase:</span>
+              <span class="status-indicator" id="firebase-status">●</span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">ThingSpeak:</span>
+              <span class="status-indicator" id="thingspeak-status">●</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="container">
+        <!-- Alert Banner -->
+        <div class="alert-banner" id="alert-banner">
+          <div class="alert-content">
+            <span class="alert-icon" id="alert-icon">🟢</span>
+            <div class="alert-text">
+              <h2 id="alert-level">All Clear</h2>
+              <p id="alert-message">
+                No fire danger detected. All systems normal.
+              </p>
+            </div>
+          </div>
+          <div class="alert-timestamp">
+            Last updated: <span id="last-update">--:--:--</span>
+          </div>
+        </div>
+
+        <!-- LED Status Panel -->
+        <div class="led-panel">
+          <h3>🚦 Warning Level Indicators</h3>
+          <div class="led-grid">
+            <div class="led-item" id="led-0">
+              <div class="led-light green"></div>
+              <span>All Clear</span>
+            </div>
+            <div class="led-item" id="led-1">
+              <div class="led-light yellow"></div>
+              <span>Watch</span>
+            </div>
+            <div class="led-item" id="led-2">
+              <div class="led-light orange"></div>
+              <span>Caution</span>
+            </div>
+            <div class="led-item" id="led-3">
+              <div class="led-light red"></div>
+              <span>Warning</span>
+            </div>
+            <div class="led-item" id="led-4">
+              <div class="led-light red-flash"></div>
+              <span>Emergency</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sensor Data Grid -->
+        <div class="sensor-grid">
+          <!-- Temperature Card -->
+          <div class="sensor-card">
+            <div class="sensor-icon">🌡️</div>
+            <div class="sensor-info">
+              <h4>Temperature</h4>
+              <div class="sensor-value">
+                <span id="temp-value">--</span>
+                <span class="unit">°C</span>
+              </div>
+              <div class="sensor-status" id="temp-status">Normal</div>
+            </div>
+          </div>
+
+          <!-- Humidity Card -->
+          <div class="sensor-card">
+            <div class="sensor-icon">💧</div>
+            <div class="sensor-info">
+              <h4>Humidity</h4>
+              <div class="sensor-value">
+                <span id="hum-value">--</span>
+                <span class="unit">%</span>
+              </div>
+              <div class="sensor-status" id="hum-status">Normal</div>
+            </div>
+          </div>
+
+          <!-- Smoke Card -->
+          <div class="sensor-card">
+            <div class="sensor-icon">💨</div>
+            <div class="sensor-info">
+              <h4>Smoke Level</h4>
+              <div class="sensor-value">
+                <span id="smoke-value">--</span>
+                <span class="unit">units</span>
+              </div>
+              <div class="sensor-status" id="smoke-status">Normal</div>
+            </div>
+          </div>
+
+          <!-- Gas Card -->
+          <div class="sensor-card">
+            <div class="sensor-icon">⚠️</div>
+            <div class="sensor-info">
+              <h4>Gas Level</h4>
+              <div class="sensor-value">
+                <span id="gas-value">--</span>
+                <span class="unit">PPM</span>
+              </div>
+              <div class="sensor-status" id="gas-status">Normal</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="charts-section">
+          <h3>📊 Historical Data (Last 20 Readings)</h3>
+          <div class="chart-container">
+            <canvas id="dataChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Data Source Toggle -->
+        <div class="data-source-panel">
+          <h3>🔄 Data Source</h3>
+          <div class="toggle-container">
+            <label class="toggle-label">
+              <input type="radio" name="data-source" value="firebase" checked />
+              <span>Firebase (Real-time)</span>
+            </label>
+            <label class="toggle-label">
+              <input type="radio" name="data-source" value="thingspeak" />
+              <span>ThingSpeak (Batch)</span>
+            </label>
+            <label class="toggle-label">
+              <input type="radio" name="data-source" value="both" />
+              <span>Both (Combined)</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <p>© 2025 Smart Fire Detection System | COE3012 Group Project</p>
+        <p>Firebase Realtime Database + ThingSpeak IoT Platform</p>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
